@@ -1,3 +1,3 @@
 # Indexer
 
-This data structure allows ultra fast text file indexing as well as smart searching.
+This data structure allows fast text file content indexing as well as smart searching.
