@@ -6,13 +6,30 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AF19F1C42D6CC2F600899DBC /* UtilsPackage in Frameworks */ = {isa = PBXBuildFile; productRef = AF19F1C32D6CC2F600899DBC /* UtilsPackage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		AF19F1B02D6CC2AF00899DBC /* Indexer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Indexer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AFF26AD22D6E16B900311EE0 /* Exceptions for "Indexer" folder in "Indexer" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = AF19F1AF2D6CC2AF00899DBC /* Indexer */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AF19F1B22D6CC2AF00899DBC /* Indexer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AFF26AD22D6E16B900311EE0 /* Exceptions for "Indexer" folder in "Indexer" target */,
+			);
 			path = Indexer;
 			sourceTree = "<group>";
 		};
@@ -23,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF19F1C42D6CC2F600899DBC /* UtilsPackage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +83,7 @@
 			);
 			name = Indexer;
 			packageProductDependencies = (
+				AF19F1C32D6CC2F600899DBC /* UtilsPackage */,
 			);
 			productName = Indexer;
 			productReference = AF19F1B02D6CC2AF00899DBC /* Indexer.app */;
@@ -94,6 +113,9 @@
 			);
 			mainGroup = AF19F1A72D6CC2AF00899DBC;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AF19F1C22D6CC2F600899DBC /* XCLocalSwiftPackageReference "../UtilsPackage" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AF19F1B12D6CC2AF00899DBC /* Products */;
 			projectDirPath = "";
@@ -257,11 +279,13 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Indexer/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = pt.carlneto.Indexer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -284,11 +308,13 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Indexer/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = pt.carlneto.Indexer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -319,6 +345,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		AF19F1C22D6CC2F600899DBC /* XCLocalSwiftPackageReference "../UtilsPackage" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../UtilsPackage;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AF19F1C32D6CC2F600899DBC /* UtilsPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UtilsPackage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AF19F1A82D6CC2AF00899DBC /* Project object */;
 }

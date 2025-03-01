@@ -1,17 +1,12 @@
-//
-//  IndexerApp.swift
-//  Indexer
-//
-//  Created by Carlos Neto on 24/02/2025.
-//
-
 import SwiftUI
 
 @main
 struct IndexerApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
+   var body: some Scene {
+       WindowGroup {
+           ContentView()
+               .frame(minWidth: 800, minHeight: 600)
+       }
+       .windowStyle(HiddenTitleBarWindowStyle())
+   }
 }
