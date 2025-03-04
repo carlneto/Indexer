@@ -17,7 +17,7 @@ class IndexerAppModel: ObservableObject, IndexController {
    private var indexerTask: DispatchWorkItem?
    
    init() {
-      indexer = Indexer(loadPersisted: true)
+      indexer = Indexer()
       updateStats()
    }
    
@@ -57,7 +57,6 @@ class IndexerAppModel: ObservableObject, IndexController {
          DispatchQueue.main.async {
             self.isIndexing = false
             self.updateStats()
-            self.saveIndex()
          }
       }
    }
@@ -71,7 +70,6 @@ class IndexerAppModel: ObservableObject, IndexController {
             self.statusMessage = "Indexados \(inserted) elementos da pasta \(url.lastPathComponent)"
             self.isIndexing = false
             self.updateStats()
-            self.saveIndex()
          }
       }
    }
@@ -79,12 +77,7 @@ class IndexerAppModel: ObservableObject, IndexController {
       indexer.charIndex = CharIndex()
       indexerResults = []
       updateStats()
-      _ = indexer.removePersistedIndex()
       statusMessage = "Índice removido"
-   }
-   func saveIndex() {
-      let success = indexer.saveIndex()
-      statusMessage = if success { "Índice guardado com sucesso" } else { "Erro ao guardar o índice" }
    }
    func updateStats() {
       indexStats = indexer.indexed()
@@ -92,7 +85,7 @@ class IndexerAppModel: ObservableObject, IndexController {
    
    // MARK: - Métodos de Pesquisa
    func performIndexer() {
-      guard indexerQuery.count >= 3 else {
+      guard indexerQuery.count >= 2 else {
          indexerResults = []
          return
       }
@@ -229,52 +222,50 @@ struct ContentView: View {
       }
       .toolbar {
          ToolbarItem(placement: .automatic) {
+            // Botão para adicionar arquivo
             Button(action: { isShowingFileImporter = true }) {
                Label("Adicionar Ficheiro", systemImage: "doc.badge.plus")
             }
+            .fileImporter(
+               isPresented: $isShowingFileImporter,
+               allowedContentTypes: [.plainText, .pdf],
+               allowsMultipleSelection: true
+            ) { result in
+               switch result {
+               case .success(let urls):
+                  for url in urls {
+                     model.insertFile(url: url)
+                  }
+               case .failure(let error):
+                  model.statusMessage = "Erro ao importar ficheiro: \(error.localizedDescription)"
+               }
+            }
          }
+         
          ToolbarItem(placement: .automatic) {
+            // Botão para adicionar pasta
             Button(action: { isShowingFolderImporter = true }) {
                Label("Adicionar Pasta", systemImage: "folder.badge.plus")
+            }
+            .fileImporter(
+               isPresented: $isShowingFolderImporter,
+               allowedContentTypes: [.directory], // <--- Alterado para .directory
+               allowsMultipleSelection: false
+            ) { result in
+               switch result {
+               case .success(let urls):
+                  if let url = urls.first {
+                     model.insertFolder(url: url)
+                  }
+               case .failure(let error):
+                  model.statusMessage = "Erro ao importar pasta: \(error.localizedDescription)"
+               }
             }
          }
          ToolbarItem(placement: .automatic) {
             Button(action: { showConfirmationDialog = true }) {
                Label("Limpar Índice", systemImage: "trash")
             }
-         }
-         ToolbarItem(placement: .automatic) {
-            Button(action: model.saveIndex) {
-               Label("Guardar Índice", systemImage: "square.and.arrow.down")
-            }
-         }
-      }
-      .fileImporter(
-         isPresented: $isShowingFileImporter,
-         allowedContentTypes: [.plainText, .pdf],
-         allowsMultipleSelection: true
-      ) { result in
-         switch result {
-         case .success(let urls):
-            for url in urls {
-               model.insertFile(url: url)
-            }
-         case .failure(let error):
-            model.statusMessage = "Erro ao importar ficheiro: \(error.localizedDescription)"
-         }
-      }
-      .fileImporter(
-         isPresented: $isShowingFolderImporter,
-         allowedContentTypes: [.folder],
-         allowsMultipleSelection: false
-      ) { result in
-         switch result {
-         case .success(let urls):
-            if let url = urls.first {
-               model.insertFolder(url: url)
-            }
-         case .failure(let error):
-            model.statusMessage = "Erro ao importar pasta: \(error.localizedDescription)"
          }
       }
       .confirmationDialog(
