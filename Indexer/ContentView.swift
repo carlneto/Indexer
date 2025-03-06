@@ -12,7 +12,7 @@ class IndexerAppModel: ObservableObject, IndexController {
    @Published var indexerQuery: String = ""
    @Published var lastIndexerQuery: String = ""
    @Published var statusMessage: String = "Pronto"
-   @Published var isIndexering: Bool = false
+   @Published var isQuering: Bool = false
    @Published var selectedResult: IndexerResult?
    private var indexerTask: DispatchWorkItem?
    
@@ -23,12 +23,6 @@ class IndexerAppModel: ObservableObject, IndexController {
    
    // MARK: - Métodos de Indexação
    func insertFile(url: URL) {
-      let toIndex = CharIndex.Resource.resourceToIndex(url: url)
-      guard let resource = toIndex.resource else { return }
-      if toIndex.reInsert {
-         statusMessage = "O arquivo \(url.lastPathComponent) já está indexado."
-         self.indexer.removeSync(resource: resource)
-      }
       isIndexing = true
       statusMessage = "A indexar \(url.lastPathComponent)..."
       DispatchQueue.global(qos: .userInitiated).async { [weak self] in
@@ -37,14 +31,14 @@ class IndexerAppModel: ObservableObject, IndexController {
             if url.fileExt.lowercased() == "pdf" {
                if let doc = PDFDocument(url: url),
                   let text = doc.string {
-                  let inserted = self.indexer.insert(text: text, resource: resource, master: self)
+                  let inserted = self.indexer.insert(text: text, url: url, master: self)
                   DispatchQueue.main.async {
                      self.statusMessage = "Indexados \(inserted) elementos de \(url.fileName)"
                   }
                }
             } else {
                let text = try String(contentsOf: url, encoding: .utf8)
-               let inserted = self.indexer.insert(text: text, resource: resource, master: self)
+               let inserted = self.indexer.insert(text: text, url: url, master: self)
                DispatchQueue.main.async {
                   self.statusMessage = "Indexados \(inserted) elementos de \(url.fileName)"
                }
@@ -84,17 +78,17 @@ class IndexerAppModel: ObservableObject, IndexController {
    }
    
    // MARK: - Métodos de Pesquisa
-   func performIndexer() {
-      guard indexerQuery.count >= 2 else {
+   func performIndexerQuery() {
+      guard indexerQuery.count > 2 else {
          indexerResults = []
          return
       }
       // Cancela a pesquisa anterior
       indexerTask?.cancel()
-      isIndexering = true
+      isQuering = true
       lastIndexerQuery = indexerQuery
       let task = DispatchWorkItem { [weak self] in
-         guard let self = self else { return }
+         guard let self else { return }
          self.indexer.find(text: self.indexerQuery, master: self)
       }
       indexerTask = task
@@ -107,7 +101,7 @@ class IndexerAppModel: ObservableObject, IndexController {
          self?.updateStats()
       }
    }
-   func didFind(references: CharIndex.References, increment: Bool, for text: String) {
+   func didFind(references: References, increment: Bool, for text: String) {
       DispatchQueue.main.async { [weak self] in
          guard let self = self, text == self.lastIndexerQuery else { self?.indexerResults = []; return }
          if !increment {
@@ -115,7 +109,7 @@ class IndexerAppModel: ObservableObject, IndexController {
          }
          let newResults = references.map { reference in
             IndexerResult(
-               fileURL: reference.resource.url,
+               fileURL: reference.url,
                excerpt: reference.excerpt,
                location: reference.location
             )
@@ -129,7 +123,7 @@ class IndexerAppModel: ObservableObject, IndexController {
             }
          }
          self.statusMessage = "Encontrados \(self.indexerResults.count) resultados para '\(text)'"
-         self.isIndexering = false
+         self.isQuering = false
       }
    }
 }
@@ -164,14 +158,14 @@ struct ContentView: View {
             HStack {
                TextField("Pesquisar...", text: $model.indexerQuery)
                   .textFieldStyle(RoundedBorderTextFieldStyle())
-                  .onChange(of: model.indexerQuery) { newValue, _ in
-                     if newValue.count >= 3 {
-                        model.performIndexer()
+                  .onChange(of: model.indexerQuery) { _, _ in
+                     if model.indexerQuery.count > 2 {
+                        model.performIndexerQuery()
                      } else {
                         model.indexerResults = []
                      }
                   }
-               Button(action: model.performIndexer) {
+               Button(action: model.performIndexerQuery) {
                   Image(systemName: "magnifyingglass")
                }
                .disabled(model.indexerQuery.count < 3)
@@ -201,7 +195,7 @@ struct ContentView: View {
                Text(model.statusMessage)
                   .font(.caption)
                Spacer()
-               if model.isIndexing || model.isIndexering {
+               if model.isIndexing || model.isQuering {
                   ProgressView()
                      .progressViewStyle(CircularProgressViewStyle())
                      .scaleEffect(0.7)
@@ -280,6 +274,8 @@ struct ContentView: View {
       }
    }
 }
+
+// MARK: - FileContent Views
 
 struct FileViewer: View {
    let fileURL: URL
@@ -380,20 +376,6 @@ struct FileViewer: View {
       } else {
          highlightedLine = nil
       }
-   }
-}
-
-extension String {
-   func ranges(of searchString: String, options: NSString.CompareOptions = []) -> [Range<String.Index>] {
-      var ranges: [Range<String.Index>] = []
-      var searchRange = self.startIndex..<self.endIndex
-      
-      while let range = self.range(of: searchString, options: options, range: searchRange) {
-         ranges.append(range)
-         searchRange = range.upperBound..<self.endIndex
-      }
-      
-      return ranges
    }
 }
 
