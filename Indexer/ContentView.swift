@@ -37,7 +37,7 @@ class IndexerViewModel: ObservableObject, IndexController {
          await MainActor.run {
             let startTime = DispatchTime.now()
             self.indexer.insertFolderParallel(folderURL: folderURL, master: self) { [weak self] insertedCount in
-               guard let self = self else { return }
+               guard let self else { return }
                self.updateStats()
                startTime.elapsed(comment: "End indexing async: \(self.indexStats.count.spaces())")
             }
@@ -46,7 +46,7 @@ class IndexerViewModel: ObservableObject, IndexController {
    }
    
    func updateStats() {
-      self.indexStats = indexer.indexed()
+      self.indexStats = self.indexer.indexed()
    }
    
    // MARK: - Pesquisa
@@ -92,13 +92,10 @@ class IndexerViewModel: ObservableObject, IndexController {
    func didFind(references: References, increment: Bool, for text: String) {
       DispatchQueue.main.async { [weak self] in
          guard let self = self else { return }
-         // Atualizar apenas se a pesquisa atual corresponder ao texto processado
          if self.searchQuery == text {
             if increment {
-               // Adicionar novas referências
                self.searchResults.append(contentsOf: references)
             } else {
-               // Substituir resultados existentes
                self.searchResults = references
             }
          }
@@ -237,54 +234,8 @@ struct DocumentView: View {
          .padding([.horizontal, .top])
          Divider()
          
-         if self.isTextFile(url: reference.url) {
-            // Para ficheiros de texto, usar a visualização de texto com numeração de linhas
-            ScrollViewReader { proxy in
-               ScrollView {
-                  VStack(alignment: .leading, spacing: 2) {
-                     ForEach(Array(self.fileContent.components(separatedBy: .newlines).enumerated()), id: \.offset) { index, line in
-                        HStack(spacing: 0) {
-                           Text("\(index + 1)")
-                              .font(.system(.caption, design: .monospaced))
-                              .foregroundColor(.secondary)
-                              .frame(width: 40, alignment: .trailing)
-                              .padding(.trailing, 8)
-                           
-                           Text(line)
-                              .font(.system(.body, design: .monospaced))
-                              .padding(.vertical, 2)
-                              .lineLimit(nil)
-                        }
-                        .background(self.isTargetLine(index) ? Color.yellow.opacity(0.3) : Color.clear)
-                        .id(index)
-                     }
-                  }
-                  .padding(.horizontal)
-               }
-               .onAppear {
-                  // Encontrar linha aproximada baseada na localização de caracteres
-                  let lineIndex = self.findLineIndexForLocation(selectedLine)
-                  self.scrollTarget = lineIndex
-                  // Scroll para a posição após um pequeno atraso
-                  DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                     withAnimation {
-                        proxy.scrollTo(lineIndex, anchor: .center)
-                     }
-                  }
-               }
-               .onChange(of: self.reference.location) { _, newLocation in
-                  let lineIndex = self.findLineIndexForLocation(newLocation)
-                  self.scrollTarget = lineIndex
-                  withAnimation {
-                     proxy.scrollTo(lineIndex, anchor: .center)
-                  }
-               }
-            }
-         } else {
-            // Para outros tipos de ficheiros, usar o QuickLookPreview
-            QuickLookPreview(url: self.reference.url)
-               .frame(maxWidth: .infinity, maxHeight: .infinity)
-         }
+         QuickLookPreview(url: self.reference.url)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
       }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .background(Color(NSColor.textBackgroundColor))
@@ -307,23 +258,7 @@ struct DocumentView: View {
          currentPos += lineLength
       }
       // Fallback se não encontrarmos a posição exata
-      return min(location / 50, lines.count - 1)
-   }
-   
-   // Verifica se o ficheiro é um ficheiro de texto
-   private func isTextFile(url: URL) -> Bool {
-//      let textExtensions = ["txt", "pdf", "epub", "doc", "xls", "ppt", "doc", "xlsx",
-//                            "pptx", "swift", "java", "c", "cpp", "h", "m", "py", "js",
-//                            "html", "css", "json", "xml", "md", "markdown"]
-//      if let fileExtension = url.pathExtension.lowercased() as String? {
-//         return textExtensions.contains(fileExtension)
-//      }
-//      // Tentar verificar o tipo de ficheiro através do UTI
-//      let resourceValues = try? url.resourceValues(forKeys: [.typeIdentifierKey])
-//      if let uti = resourceValues?.typeIdentifier {
-//         return UTType(uti as String)?.conforms(to: .text) ?? false
-//      }
-      return false
+      return Swift.min(location / 50, lines.count - 1)
    }
 }
 
