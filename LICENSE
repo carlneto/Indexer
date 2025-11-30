@@ -1,36 +1,51 @@
-// Licença de Utilização Restrita
-//
-// Este software não é de código aberto. A utilização deste código é estritamente limitada de acordo com os termos abaixo.
-//
-// 1. Proibições
-//    1.1. É expressamente proibida a modificação, adaptação, engenharia inversa, tradução ou criação de obras derivadas, no todo ou em parte, sem autorização prévia e expressa por escrito do autor.
-//    1.2. É expressamente proibida a distribuição, sublicenciamento, partilha, disponibilização pública ou privada, ou qualquer forma de transferência deste software, no todo ou em parte, sem autorização prévia e expressa por escrito do autor.
-//    1.3. É expressamente proibida qualquer utilização comercial, incluindo, mas não se limitando a, venda, aluguer, prestação de serviços, integração em produtos comerciais ou monetização direta ou indireta, sem autorização prévia e expressa por escrito do autor.
-//    1.4. É expressamente proibido o registo de patentes, modelos de utilidade, direitos de autor adicionais, marcas ou quaisquer outros direitos de propriedade intelectual que incidam sobre este software ou sobre obras dele derivadas, sem autorização prévia e expressa por escrito do autor.
-//
-// 2. Propriedade Intelectual
-//    2.1. O software, incluindo o seu código-fonte, documentação, design e quaisquer materiais associados, é propriedade exclusiva do autor.
-//    2.2. Não é concedida qualquer licença implícita de propriedade intelectual. Qualquer direito não concedido explicitamente permanece reservado ao autor.
-//
-// 3. Utilização Permitida
-//    3.1. É permitida a utilização estritamente pessoal, privada e não comercial, com o único propósito de avaliação e testes, salvo acordo escrito em contrário do autor.
-//    3.2. Qualquer uso que exceda a cláusula 3.1 requer autorização expressa por escrito do autor.
-//
-// 4. Isenção de Garantias
-//    4.1. O software é fornecido "tal como está" ("AS IS"), sem garantias de qualquer tipo, expressas ou implícitas, incluindo, sem limitação, garantias de comerciabilidade, adequação a um propósito específico, ausência de infrações ou funcionamento sem erros.
-//    4.2. O autor não garante que o software satisfaça requisitos específicos, que funcione ininterruptamente, ou que eventuais erros sejam corrigidos.
-//
-// 5. Limitação de Responsabilidade
-//    5.1. Em nenhuma circunstância o autor será responsável por quaisquer danos diretos, indiretos, incidentais, especiais, consequenciais ou punitivos, incluindo, sem limitação, perda de lucros, perda de dados, interrupção de negócio, danos reputacionais ou quaisquer outras perdas resultantes da utilização ou impossibilidade de utilização do software, mesmo que o autor tenha sido alertado para a possibilidade de tais danos.
-//
-// 6. Rescisão
-//    6.1. Qualquer violação destas condições implicará a rescisão imediata e automática de quaisquer permissões concedidas por este documento, sem prejuízo de outras medidas legais aplicáveis.
-//
-// 7. Lei Aplicável e Foro
-//    7.1. Este acordo é regido pela lei aplicável no país do autor, salvo estipulação em contrário por escrito. Qualquer litígio será submetido aos tribunais competentes dessa jurisdição.
-//
-// 8. Disposições Finais
-//    8.1. A nulidade de qualquer cláusula não afetará a validade das restantes.
-//    8.2. Alterações a estes termos só produzem efeito quando feitas por escrito e assinadas pelo autor.
-//
-// © 2025 Autor. Todos os direitos reservados.
+RESTRICTED USE LICENSE
+
+This software is not open source. The use of this code is strictly limited according to the terms below.
+
+1. PROHIBITIONS
+
+1.1. Modification, adaptation, reverse engineering, translation, or creation of derivative works, in whole or in part, is expressly prohibited without the prior written and express authorization of the Author.
+
+1.2. Distribution, sublicense, sharing, public or private availability, or any form of transfer of this software, in whole or in part, is expressly prohibited without the prior written and express authorization of the Author.
+
+1.3. Any commercial use, including, but not limited to, sale, rental, provision of services, integration into commercial products, or direct or indirect monetization, is expressly prohibited without the prior written and express authorization of the Author.
+
+1.4. The registration of patents, utility models, additional copyrights, trademarks, or any other intellectual property rights that affect this software or derivative works thereof is expressly prohibited without the prior written and express authorization of the Author.
+
+2. INTELLECTUAL PROPERTY
+
+2.1. The software, including its source code, documentation, design, and any associated materials, is the exclusive property of the Author.
+
+2.2. No implied license of intellectual property is granted. Any right not explicitly granted remains reserved to the Author.
+
+3. PERMITTED USE
+
+3.1. Strictly personal, private, and non-commercial use is permitted for the sole purpose of evaluation and testing, unless otherwise agreed in writing by the Author.
+
+3.2. Any use that exceeds clause 3.1 requires the express written authorization of the Author.
+
+4. DISCLAIMER OF WARRANTIES
+
+4.1. THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR ERROR-FREE OPERATION.
+
+4.2. The Author does not warrant that the software will meet specific requirements, that it will operate uninterruptedly, or that any errors will be corrected.
+
+5. LIMITATION OF LIABILITY
+
+5.1. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING, WITHOUT LIMITATION, LOSS OF PROFITS, LOSS OF DATA, BUSINESS INTERRUPTION, REPUTATIONAL DAMAGE, OR ANY OTHER LOSSES RESULTING FROM THE USE OR INABILITY TO USE THE SOFTWARE, EVEN IF THE AUTHOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+6. TERMINATION
+
+6.1. Any violation of these terms shall result in the immediate and automatic termination of any permissions granted by this document, without prejudice to other applicable legal remedies.
+
+7. GOVERNING LAW AND JURISDICTION
+
+7.1. This agreement is governed by the law applicable in the Author's country, unless otherwise stipulated in writing. Any dispute shall be submitted to the competent courts of that jurisdiction.
+
+8. FINAL PROVISIONS
+
+8.1. The invalidity of any clause shall not affect the validity of the remaining clauses.
+
+8.2. Changes to these terms shall only take effect when made in writing and signed by the Author.
+
+© 2025 Author. All rights reserved.
